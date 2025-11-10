@@ -1,0 +1,14 @@
+{
+
+  "newsApp": "News App",
+  "goToHome": "Go To Home",
+  "theme": "Theme",
+  "dark": "Dark",
+  "light": "Light",
+  "locale": "Locale",
+  "english": "English",
+  "arabic": "Arabic",
+  "home" : "Home",
+  "homeGreetingMessage" : "Good Morning\nHere is Some News For You",
+  "viewAll" : "View All"
+}

@@ -5,6 +5,8 @@ import 'package:news_c16_mon/ui/home/home_screen.dart';
 import 'package:news_c16_mon/ui/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'l10n/app_localizations.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -23,6 +25,9 @@ class MyApp extends StatelessWidget {
           themeMode: provider.themeMode,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: Locale(provider.locale),
           routes: {
             SplashScreen.routeName: (context) => SplashScreen(),
             HomeScreen.routeName : (context) => HomeScreen()
