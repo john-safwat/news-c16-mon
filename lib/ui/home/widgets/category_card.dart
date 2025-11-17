@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_c16_mon/core/theme/app_colors.dart';
 import 'package:news_c16_mon/core/utils/context_extentions.dart';
 import 'package:news_c16_mon/core/utils/padding_utils.dart';
-import 'package:news_c16_mon/models/category_dm.dart';
+import 'package:news_c16_mon/data/models/category_dm.dart';
 
 class CategoryCard extends StatelessWidget {
   final CategoryDm category;

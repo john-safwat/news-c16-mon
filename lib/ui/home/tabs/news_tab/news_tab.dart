@@ -3,7 +3,7 @@ import 'package:news_c16_mon/core/base/base_view.dart';
 import 'package:news_c16_mon/core/utils/context_extentions.dart';
 import 'package:news_c16_mon/core/utils/padding_utils.dart';
 import 'package:news_c16_mon/core/utils/white_space_utils.dart';
-import 'package:news_c16_mon/models/category_dm.dart';
+import 'package:news_c16_mon/data/models/category_dm.dart';
 import 'package:news_c16_mon/ui/home/tabs/news_tab/news_tab_view_model.dart';
 import 'package:news_c16_mon/ui/home/widgets/article_card.dart';
 import 'package:provider/provider.dart';
