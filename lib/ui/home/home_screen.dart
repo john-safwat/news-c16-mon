@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_c16_mon/core/utils/context_extentions.dart';
-import 'package:news_c16_mon/ui/home/home_navigator.dart';
+import 'package:news_c16_mon/ui/home/home_contract.dart';
 import 'package:news_c16_mon/ui/home/home_view_model.dart';
 import 'package:news_c16_mon/ui/home/tabs/home_tab.dart';
 import 'package:news_c16_mon/ui/home/tabs/news_tab/news_tab.dart';
 import 'package:news_c16_mon/ui/home/widgets/news_drawer_widget.dart';
-import 'package:provider/provider.dart';
-
-import '../../core/base/base_view.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -18,38 +16,99 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
-    implements HomeNavigator {
+class _HomeScreenState extends State<HomeScreen> {
+  HomeViewModel viewModel = HomeViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.add(SetupHomeScreenAction());
+    viewModel.navigation.listen((navigation) {
+      switch (navigation) {
+        case CloseDrawer():
+          {
+            Navigator.pop(context);
+          }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: viewModel,
-      child: Consumer<HomeViewModel>(
-        builder: (context, _, _) => Scaffold(
-          drawer: NewsDrawerWidget(goToHome: viewModel.goToHomeTab),
-          appBar: AppBar(
-            title: Text(
-              viewModel.selectedCategory == null
-                  ? context.locale.home
-                  : context.appConfigProvider.isEn
-                  ? viewModel.selectedCategory!.nameEn
-                  : viewModel.selectedCategory!.nameAr,
+    return BlocProvider(
+      create: (context) => viewModel,
+      child: BlocBuilder<HomeViewModel, HomeState>(
+        builder: (context, state) {
+          return Scaffold(
+            drawer: NewsDrawerWidget(
+              goToHome: () {
+                viewModel.add(GoToHomeTab());
+              },
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  // todo navigate to search screen
-                },
-                icon: Icon(Icons.search),
+            appBar: AppBar(
+              title: Text(
+                state.category == null
+                    ? context.locale.home
+                    : context.appConfigProvider.isEn
+                    ? state.category?.nameEn ?? ""
+                    : state.category?.nameAr ?? "",
               ),
-            ],
-          ),
-          body: viewModel.selectedCategory == null
-              ? HomeTab(onCardPress: viewModel.onCategoryCardPress)
-              : NewsTab(categoryDm: viewModel.selectedCategory!),
-        ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    // todo navigate to search screen
+                  },
+                  icon: Icon(Icons.search),
+                ),
+              ],
+            ),
+            body:
+                state.category == null
+                    ? HomeTab(
+                      onCardPress: (categoryDm) {
+                        viewModel.add(ChangeTabAction(categoryDm));
+                      },
+                    )
+                    : NewsTab(categoryDm: state.category!),
+          );
+        },
       ),
     );
+
+    // return StreamBuilder(
+    //   stream: viewModel.data,
+    //   builder:
+    //       (context, snapshot) => Scaffold(
+    //         drawer: NewsDrawerWidget(goToHome:(){
+    //           viewModel.doAction(GoToHomeTab());
+    //         }),
+    //         appBar: AppBar(
+    //           title: Text(
+    //             snapshot.data?.category == null
+    //                 ? context.locale.home
+    //                 : context.appConfigProvider.isEn
+    //                 ? snapshot.data?.category?.nameEn ?? ""
+    //                 : snapshot.data?.category?.nameAr ?? "",
+    //           ),
+    //           actions: [
+    //             IconButton(
+    //               onPressed: () {
+    //                 // todo navigate to search screen
+    //               },
+    //               icon: Icon(Icons.search),
+    //             ),
+    //           ],
+    //         ),
+    //         body:
+    //             snapshot.data?.category == null
+    //                 ? HomeTab(
+    //                   onCardPress: (categoryDm) {
+    //                     viewModel.doAction(ChangeTabAction(categoryDm));
+    //                   },
+    //                 )
+    //                 : NewsTab(categoryDm: snapshot.data!.category!),
+    //       ),
+    // );
   }
 
   @override

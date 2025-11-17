@@ -1,19 +1,34 @@
-import 'package:flutter/material.dart';
-import 'package:news_c16_mon/core/base/base_view_model.dart';
-import 'package:news_c16_mon/data/models/category_dm.dart';
-import 'package:news_c16_mon/ui/home/home_navigator.dart';
+import 'dart:async';
 
-class HomeViewModel extends BaseViewModel<HomeNavigator> {
-  CategoryDm? selectedCategory;
+import 'package:bloc/bloc.dart';
+import 'package:news_c16_mon/ui/home/home_contract.dart';
 
-  onCategoryCardPress(category) {
-    selectedCategory = category;
-    notifyListeners();
+class HomeViewModel extends Bloc<HomeActions, HomeState> {
+  HomeViewModel() : super(HomeState()) {
+    on<SetupHomeScreenAction>(_setup);
+    on<ChangeTabAction>(_changeTab);
+    on<GoToHomeTab>(_goToHomeTab);
   }
 
-  goToHomeTab() {
-    selectedCategory = null;
-    navigator?.pop();
-    notifyListeners();
+  final StreamController<HomeScreenNavigation> navigationStream =
+      StreamController.broadcast();
+  late final Stream<HomeScreenNavigation> navigation = navigationStream.stream;
+
+  void _setup(SetupHomeScreenAction action, Emitter emitter) {
+    emitter(state.copyWith(category: null, appBarTitle: ""));
+  }
+
+  Future<void> _changeTab(ChangeTabAction action, Emitter emitter) async {
+    emitter(
+      state.copyWith(
+        category: action.category,
+        appBarTitle: action.category.nameEn,
+      ),
+    );
+  }
+
+  void _goToHomeTab(GoToHomeTab action, Emitter emitter) {
+    emitter(HomeState());
+    navigationStream.add(CloseDrawer());
   }
 }

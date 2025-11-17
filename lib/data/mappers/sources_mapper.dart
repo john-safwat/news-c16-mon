@@ -6,8 +6,7 @@ class SourcesMapper {
   List<SourceEntity> convertFromSourceToSourceEntity(List<Sources> sources) {
     List<SourceEntity> entities = [];
     for (var source in sources) {
-      var name = locale == "en" ? source.nameEn : source.nameAr;
-      entities.add(SourceEntity(source.id, name, source.category));
+      entities.add(SourceEntity(source.id, source.name, source.category));
     }
     return entities;
   }
