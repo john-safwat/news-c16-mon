@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.2
+  sdk: ^3.7.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,11 +41,18 @@ dependencies:
   intl: any
   icons_plus: ^5.0.0
   cached_network_image: ^3.4.1
-
+  retrofit:
+  pretty_dio_logger: ^1.4.0
+  firebase_core:
+  cloud_firestore:
+  connectivity_plus: ^7.0.0
+  bloc: ^9.1.0
+  flutter_bloc: 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  retrofit_generator:
+  build_runner:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

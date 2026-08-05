@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_c16_mon/core/utils/context_extentions.dart';
 import 'package:news_c16_mon/core/utils/white_space_utils.dart';
-import 'package:news_c16_mon/models/articles_response.dart';
+import 'package:news_c16_mon/data/models/articles_response.dart';
 
 class ArticleCard extends StatelessWidget {
   final Articles article;
